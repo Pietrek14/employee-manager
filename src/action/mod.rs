@@ -5,6 +5,7 @@ pub mod list;
 pub enum Action {
 	Nop,
 	Quit,
+	Help,
 	Add(add::AddAction),
 	Remove(remove::RemoveAction),
 	List(list::ListAction),
@@ -30,6 +31,14 @@ pub fn execute(action: Action) {
 		},
 		Action::Quit => {
 			println!("I actually don't know how to implement this one...");
+		},
+		Action::Help => {
+			println!("Available actions:");
+			println!("\tadd - adds employee to a department");
+			println!("\tremove - removes employee from a department");
+			println!("\tlist - list all employees or employees from just one department");
+			println!("\tquit - quits the program");
+			println!("\thelp - lists all available actions");
 		},
 		Action::Nop => ()
 	}
