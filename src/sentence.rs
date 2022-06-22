@@ -3,9 +3,10 @@ use action::Action;
 use action::add::AddAction;
 use action::remove::RemoveAction;
 use action::list::ListAction;
+use action::effect::ActionEffect;
 use crate::company::Company;
 
-pub fn execute(sentence: Vec<&str>, on: &mut Company) {
+pub fn execute(sentence: Vec<&str>, on: &mut Company) -> ActionEffect {
 	let sentence_length = sentence.len();
 
 	let action = match sentence[0].to_lowercase().as_str() {
@@ -76,5 +77,5 @@ pub fn execute(sentence: Vec<&str>, on: &mut Company) {
 		}
 	};
 
-	action::execute(action, on);
+	action::execute(action, on)
 }

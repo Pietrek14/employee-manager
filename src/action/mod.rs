@@ -1,8 +1,10 @@
 pub mod add;
 pub mod remove;
 pub mod list;
+pub mod effect;
 
 use crate::company::Company;
+use effect::ActionEffect;
 
 pub enum Action {
 	Nop,
@@ -13,7 +15,7 @@ pub enum Action {
 	List(list::ListAction),
 }
 
-pub fn execute(action: Action, on: &mut Company) {
+pub fn execute(action: Action, on: &mut Company) -> ActionEffect {
 	match action {
 		Action::Add(params) => {
 			let department = on.entry(params.department.as_str().to_string()).or_insert(vec![]);
@@ -21,6 +23,8 @@ pub fn execute(action: Action, on: &mut Company) {
 			(*department).push(params.person.as_str().to_string());
 
 			println!("Added {} to {}", params.person, params.department);
+
+			ActionEffect::Nop
 		},
 		Action::Remove(params) => {
 			let department = on.get_mut(&params.department.as_str().to_string());
@@ -44,6 +48,8 @@ pub fn execute(action: Action, on: &mut Company) {
 					eprintln!("Such a department as {} doesn't exist!", params.department);
 				}
 			}
+
+			ActionEffect::Nop
 		},
 		Action::List(params) => {
 			fn print_employees(employees: &Vec<String>) {
@@ -78,9 +84,12 @@ pub fn execute(action: Action, on: &mut Company) {
 					}
 				}
 			}
+
+			ActionEffect::Nop
 		},
 		Action::Quit => {
-			println!("I actually don't know how to implement this one...");
+			println!("Goodbye!");
+			ActionEffect::Quit
 		},
 		Action::Help => {
 			println!("Available actions:");
@@ -89,7 +98,9 @@ pub fn execute(action: Action, on: &mut Company) {
 			println!("\tlist - list all employees or employees from just one department");
 			println!("\tquit - quits the program");
 			println!("\thelp - lists all available actions");
+
+			ActionEffect::Nop
 		},
-		Action::Nop => ()
+		Action::Nop => ActionEffect::Nop
 	}
 }

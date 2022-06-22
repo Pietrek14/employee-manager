@@ -2,6 +2,7 @@ use std::collections::HashMap;
 use std::io;
 use employee_manager::sentence;
 use employee_manager::company::Company;
+use employee_manager::action::effect::ActionEffect;
 
 fn main() {
     let mut company: Company = HashMap::new();
@@ -19,6 +20,13 @@ fn main() {
 
         let sentence = input.split(' ').collect::<Vec<&str>>();
 
-        sentence::execute(sentence, &mut company);
+        let effect = sentence::execute(sentence, &mut company);
+
+        match effect {
+            ActionEffect::Quit => {
+                break;
+            },
+            ActionEffect::Nop => ()
+        }
     }
 }
