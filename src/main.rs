@@ -1,7 +1,11 @@
+use std::collections::HashMap;
 use std::io;
 use employee_manager::sentence;
+use employee_manager::company::Company;
 
 fn main() {
+    let mut company: Company = HashMap::new();
+
     loop {
         let mut input = String::new();
 
@@ -15,6 +19,6 @@ fn main() {
 
         let sentence = input.split(' ').collect::<Vec<&str>>();
 
-        sentence::execute(sentence);
+        sentence::execute(sentence, &mut company);
     }
 }

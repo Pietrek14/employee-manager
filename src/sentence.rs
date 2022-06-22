@@ -3,8 +3,9 @@ use action::Action;
 use action::add::AddAction;
 use action::remove::RemoveAction;
 use action::list::ListAction;
+use crate::company::Company;
 
-pub fn execute(sentence: Vec<&str>) {
+pub fn execute(sentence: Vec<&str>, on: &mut Company) {
 	let sentence_length = sentence.len();
 
 	let action = match sentence[0].to_lowercase().as_str() {
@@ -70,10 +71,10 @@ pub fn execute(sentence: Vec<&str>) {
 			}
 		}
 		_ => {
-			eprintln!("Unknown action: {}!", sentence[0]);
+			eprintln!("Unknown action: {}! To get the list of available actions, type in 'help'.", sentence[0]);
 			Action::Nop
 		}
 	};
 
-	action::execute(action);
+	action::execute(action, on);
 }
