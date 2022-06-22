@@ -46,7 +46,15 @@ pub fn execute(action: Action, on: &mut Company) {
 			}
 		},
 		Action::List(params) => {
-			// TODO: Sorting people alphabetically
+			fn print_employees(employees: &Vec<String>) {
+				let mut sorted = employees[..].to_vec();
+
+				sorted.sort();
+
+				for employee in sorted {
+					println!("\t{}", employee);
+				}
+			}
 
 			match params.department {
 				Some(department) => {
@@ -55,22 +63,18 @@ pub fn execute(action: Action, on: &mut Company) {
 					let employees = on.get(&department);
 
 					if let Some(employees) = employees {
-						for employee in employees {
-							println!("\t{}", employee);
-						}
+						print_employees(employees);
 					} else {
 						eprintln!("Such a department as {} doesn't exist!", department);
 					}
 				},
 				None => {
 					println!("Listing all employees");
-					
+
 					for (department, employees) in on {
 						println!("{}", department);
 
-						for employee in employees {
-							println!("\t{}", employee);
-						}
+						print_employees(employees);
 					}
 				}
 			}
